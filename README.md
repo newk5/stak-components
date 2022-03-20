@@ -2,7 +2,9 @@
 A collection of single file, zero dependency, self contained web components
 
 <hr>
-![image](https://user-images.githubusercontent.com/32560510/159189896-5670d5a9-a6b9-4293-9919-7c43d2887f42.png)
+
+
+![image](https://i.imgur.com/gKjYlxh.png)
 
 
 The goal behind these components is to provide a collection of self contained components which don't depend on any external dependencies or any other files.
