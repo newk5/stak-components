@@ -14,4 +14,4 @@ choose to use, or without any framework at all. Contributions are welcome, I onl
 since the main goals here are simplicity and reliance on web standards.
 
 ## Usage
-Check the index.html file to understand how they're used
+Check the [index.html](https://github.com/newk5/stak-components/blob/master/index.html) file to understand how they're used
