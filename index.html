@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto&display=swap" rel="stylesheet">
+    <title>stak-showcase</title>
+    <script src="components/st-checkbox.js" type="module"></script>
+    <script src="components/st-input.js" type="module"></script>
+    <script src="components/st-combo.js" type="module"></script>
+    <script src="components/st-accordion.js" type="module"></script>
+    <script src="components/st-textarea.js" type="module"></script>
+    <script src="components/st-datepicker.js" type="module"></script>
+    <script src="components/st-timepicker.js" type="module"></script>
+    <style>
+        h1 {
+            background-color: #547b9d;
+            padding: 10px;
+            color: white;
+        }
+
+        body,
+        html {
+            margin: 0px;
+
+            margin-top: -11px;
+        }
+
+        .bodyWrapper {
+            padding: 10px;
+        }
+    </style>
+</head>
+
+<body style="font-family: 'Roboto', sans-serif; display:none" onload=" document.body.style.display='block'">
+
+    <h1>stak components</h1>
+
+    <div class="bodyWrapper">
+
+
+        <h3>Default display mode</h3>
+        <st-checkbox label="Checkbox">
+        </st-checkbox>
+
+        <st-input value="test" label="Input"></st-input>
+
+        <st-combo label="Combo">
+            <option value="1">Hello</option>
+            <option value="2">Hello2</option>
+        </st-combo>
+
+
+
+        <st-datepicker label="DatePicker"></st-datepicker>
+
+
+        <st-timepicker></st-timepicker>
+
+        <st-textarea label="TextArea">
+        </st-textarea>
+
+        <br /><br />
+        <h3>Block display mode</h3><br />
+        <st-checkbox display="block" label="Checkbox"></st-checkbox>
+
+        <st-input display="block" value="test" label="Input"></st-input>
+
+        <st-combo display="block" label="Combo">
+            <option value="1">Hello</option>
+            <option value="2">Hello2</option>
+        </st-combo>
+
+        <st-textarea display="block" label="TextArea">
+        </st-textarea>
+
+        <st-datepicker display="block" label="DatePicker"></st-datepicker>
+
+
+        <st-timepicker display="block"></st-timepicker>
+
+
+        <h3>No labels</h3>
+        <st-checkbox label=""></st-checkbox>
+
+        <st-input value="test" label=""></st-input>
+
+        <st-combo label="">
+            <option value="1">Hello</option>
+            <option value="2">Hello2</option>
+        </st-combo>
+
+        <st-datepicker label=""></st-datepicker>
+
+
+        <st-timepicker hoursLabel="" minutesLabel=""></st-timepicker>
+
+        <st-textarea label="">
+        </st-textarea>
+
+
+        <st-accordion>
+            <st-accordion-tab name="hello">
+                hello again
+            </st-accordion-tab>
+            <st-accordion-tab name="hello2">
+                hello again2
+            </st-accordion-tab>
+        </st-accordion>
+
+    </div>
+</body>
+
+</html>
