@@ -3,8 +3,8 @@ A collection of single file, zero dependency, self contained web components
 
 <hr>
 
-
-![image](https://i.imgur.com/gKjYlxh.png)
+## Showcase
+https://newk5.github.io/stak-components/
 
 
 The goal behind these components is to provide a collection of self contained components which don't depend on any external dependencies or any other files.
