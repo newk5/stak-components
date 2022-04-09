@@ -8,10 +8,10 @@ const stylesheet = (href) => {
 };
 const style = (content) => {
     const el = document.createElement('style');
-  
+
     el.innerHTML = content;
     return el;
-  };
+};
 
 let months = [
     "January",
@@ -231,8 +231,13 @@ class Datepicker extends HTMLElement {
         super();
         this.attachShadow({ mode: "open" });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-       
-      
+        this.events = {}
+        this.oldDate = null;
+
+    }
+
+    event(name, callback) {
+        this.events[name] = callback;
     }
 
     connectedCallback() {
@@ -240,19 +245,28 @@ class Datepicker extends HTMLElement {
         if (this.getAttribute("disabled") == "true") {
             this.disable();
         }
-
-        if (this.getAttribute("yearInterval") != null) {
-           yearDiff = parseInt(this.getAttribute("yearInterval"));
+        if (this.getAttribute("dateChanged") != null) {
+            this.event("dateChanged", window[this.getAttribute("dateChanged")]);
+        }
+        if (this.getAttribute("monthChanged") != null) {
+            this.event("monthChanged", window[this.getAttribute("monthChanged")]);
+        }
+        if (this.getAttribute("yearChanged") != null) {
+            this.event("yearChanged", window[this.getAttribute("yearChanged")]);
         }
 
-        if (this.getGlobalMonths() != null){
+        if (this.getAttribute("yearInterval") != null) {
+            yearDiff = parseInt(this.getAttribute("yearInterval"));
+        }
+
+        if (this.getGlobalMonths() != null) {
             months = this.getGlobalMonths();
         }
 
         if (this.getAttribute("months") != null) {
             months = this.getAttribute("months").split(",");
-         }
- 
+        }
+
 
         if (this.getAttribute("label") != null) {
             this.setLabel(this.getAttribute("label"));
@@ -339,7 +353,7 @@ class Datepicker extends HTMLElement {
 
         years.sort();
         years.reverse();
-        let yearsCombo = this.getYearsCombo();
+        let yearsCombo = this.getYearsInput();
         years.forEach(year => {
             var option = document.createElement("option");
             option.text = year + "";
@@ -350,6 +364,17 @@ class Datepicker extends HTMLElement {
 
         yearsCombo.addEventListener("change", function (e) {
 
+            let yearSelecEvent = new CustomEvent("yearChanged", {
+                detail: {
+                    old: parseInt(selectedYear),
+                    new: parseInt(e.target.value)
+                }
+            })
+            yearsCombo.dispatchEvent(yearSelecEvent);
+            if ("yearChanged" in self.events) {
+                self.events.yearChanged(yearSelecEvent);
+            }
+            selectedYear = e.target.value;
         })
 
         const populateDates = e => {
@@ -376,7 +401,7 @@ class Datepicker extends HTMLElement {
                 }
 
                 day_element.addEventListener("mousedown", function () {
-                    let comboYear = self.getYearsCombo().value;
+                    let comboYear = self.getYearsInput().value;
                     let newDate = new Date(comboYear + "-" + (month + 1) + "-" + (i + 1));
                     selectedDay = i + 1;
                     selectedMonth = month;
@@ -388,6 +413,18 @@ class Datepicker extends HTMLElement {
                     datesElement.classList.toggle("active");
                     populateDates();
                     self.setValue(newDate);
+
+                    let dateChangedEvent = new CustomEvent("dateChanged", {
+                        detail: {
+                            old: self.oldDate,
+                            new: newDate
+                        }
+                    })
+                    if ("dateChanged" in self.events) {
+                        self.events.dateChanged(dateChangedEvent);
+                    }
+
+                    self.oldDate = newDate;
 
 
                 });
@@ -435,26 +472,49 @@ class Datepicker extends HTMLElement {
         });
         //when the next month button is clicked
         nextMonthElement.addEventListener("click", e => {
+            let old = month;
+
             month++;
             if (month > 11) {
                 month = 0;
                 year++;
 
             }
+
             this.onMonthChange(year);
             monthElement.textContent = months[month];
             populateDates();
+            let monthChangedEvent = new CustomEvent("monthChanged", {
+                detail: {
+                    old: old,
+                    new: month
+                }
+            })
+            if ("monthChanged" in self.events) {
+                self.events.monthChanged(monthChangedEvent);
+            }
         });
         //when the previous month button is clicked
         prevMonthElement.addEventListener("click", e => {
+            let old = month;
             month--;
             if (month < 0) {
                 month = 11;
                 year--;
             }
+
             this.onMonthChange(year);
             monthElement.textContent = months[month];
             populateDates();
+            let monthChangedEvent = new CustomEvent("monthChanged", {
+                detail: {
+                    old: old,
+                    new: month
+                }
+            })
+            if ("monthChanged" in self.events) {
+                self.events.monthChanged(monthChangedEvent);
+            }
         });
 
         if (this.getAttribute("epoch") != null) {
@@ -469,10 +529,10 @@ class Datepicker extends HTMLElement {
         if (this.getAttribute("extraStyles") != null) {
             this.shadowRoot.appendChild(style(this.getAttribute("extraStyles")));
         }
-       
+
     }
 
-    getGlobalMonths(){
+    getGlobalMonths() {
         try {
             return window.__$STAK.attributes.datepicker.months;
         } catch (error) {
@@ -563,7 +623,7 @@ class Datepicker extends HTMLElement {
     }
 
     onMonthChange(year) {
-        this.getYearsCombo().value = year + "";
+        this.getYearsInput().value = year + "";
     }
     setReadOnly(val) {
         this.getInput().readOnly = val;
@@ -619,7 +679,7 @@ class Datepicker extends HTMLElement {
         }
     }
 
-    getYearsCombo() {
+    getYearsInput() {
         return this.shadowRoot.querySelector("#yearsCombo");
     }
 

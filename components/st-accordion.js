@@ -34,7 +34,7 @@ templateTab.innerHTML = `
 }
 
 .accordion-panel {
-    padding: 0 18px;
+    padding: 15px;
     background-color: white;
     display: none;
     overflow: hidden;
