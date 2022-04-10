@@ -143,14 +143,20 @@ class Tabs extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
-
+        this.events = {}
     }
 
+    event(name, callback) {
+        this.events[name] = callback;
+    }
     connectedCallback() {
         this.render();
     }
 
     render() {
+        if (this.getAttribute("tabChanged") != null) {
+            this.event("tabChanged", window[this.getAttribute("tabChanged")]);
+        }
         const slot = this.shadowRoot.querySelector("slot");
         slot.addEventListener("slotchange", (e) => {
             this.attachTabClickListeners();
@@ -201,6 +207,18 @@ class Tabs extends HTMLElement {
             let fromList = elem;
             let active = self.children
             let arr = Array.prototype.slice.call(active);
+            let lastActive = arr.filter(tab => tab.isActive())[0];
+
+
+            let changedEvent = new CustomEvent("tabChanged", {
+                detail: {
+                    old: lastActive == undefined ? null : lastActive,
+                    new: fromList
+                }
+            })
+            if ("tabChanged" in self.events) {
+                self.events.tabChanged(changedEvent);
+            }
 
 
             arr.forEach(function (fromLoop) {
