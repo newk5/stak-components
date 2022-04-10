@@ -133,7 +133,11 @@ class Accordion extends HTMLElement {
         super();
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
+        this.events = {}
+    }
 
+    event(name, callback) {
+        this.events[name] = callback;
     }
 
     connectedCallback() {
@@ -141,10 +145,12 @@ class Accordion extends HTMLElement {
     }
 
     render() {
+        if (this.getAttribute("tabChanged") != null) {
+            this.event("tabChanged", window[this.getAttribute("tabChanged")]);
+        }
         const slot = this.shadowRoot.querySelector("slot");
         slot.addEventListener("slotchange", (e) => {
             this.attachAccordionListeners();
-
         })
         if (this.getStyle() != null) {
             this.shadowRoot.appendChild(style(this.getStyle()));
@@ -181,19 +187,27 @@ class Accordion extends HTMLElement {
     addClickHandler(elem, button, self) {
         button.addEventListener('click', function (e) {
 
-            elem.toggleActive();
+          
             let fromList = elem;
             let active = self.children
             let arr = Array.prototype.slice.call(active);
+            let lastActive = arr.filter(tab => tab.isActive())[0];
+          
+            if (lastActive != null){
+                lastActive.toggleActive();
+            }
+           
+            elem.toggleActive();
 
-
-            arr.forEach(function (fromLoop) {
-                if (fromList != fromLoop && fromLoop.isActive()) {
-                    fromLoop.toggleActive();
+            let changedEvent = new CustomEvent("tabChanged", {
+                detail: {
+                    old: lastActive == undefined ? null : lastActive,
+                    new: fromList
                 }
-
-            });
-
+            })
+            if ("tabChanged" in self.events) {
+                self.events.tabChanged(changedEvent);
+            }
 
 
         }, false);
