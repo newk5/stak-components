@@ -134,6 +134,7 @@ class Accordion extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
         this.events = {}
+        this.activeTab = null;
     }
 
     event(name, callback) {
@@ -148,9 +149,20 @@ class Accordion extends HTMLElement {
         if (this.getAttribute("tabChanged") != null) {
             this.event("tabChanged", window[this.getAttribute("tabChanged")]);
         }
+        if (this.getAttribute("activeTab") != null) {
+            this.activeTab = parseInt(this.getAttribute("activeTab"));
+        }
         const slot = this.shadowRoot.querySelector("slot");
         slot.addEventListener("slotchange", (e) => {
             this.attachAccordionListeners();
+
+            if (this.activeTab != null) {
+                let tab = this.children[this.activeTab];
+                if ( tab != null){
+                    tab.toggleActive();
+                }
+
+            }
         })
         if (this.getStyle() != null) {
             this.shadowRoot.appendChild(style(this.getStyle()));
@@ -187,16 +199,16 @@ class Accordion extends HTMLElement {
     addClickHandler(elem, button, self) {
         button.addEventListener('click', function (e) {
 
-          
+
             let fromList = elem;
             let active = self.children
             let arr = Array.prototype.slice.call(active);
             let lastActive = arr.filter(tab => tab.isActive())[0];
-          
-            if (lastActive != null){
+
+            if (lastActive != null) {
                 lastActive.toggleActive();
             }
-           
+
             elem.toggleActive();
 
             let changedEvent = new CustomEvent("tabChanged", {

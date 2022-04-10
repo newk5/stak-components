@@ -144,6 +144,7 @@ class Tabs extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.appendChild(template.content.cloneNode(true));
         this.events = {}
+        this.activeTab =0;
     }
 
     event(name, callback) {
@@ -156,6 +157,9 @@ class Tabs extends HTMLElement {
     render() {
         if (this.getAttribute("tabChanged") != null) {
             this.event("tabChanged", window[this.getAttribute("tabChanged")]);
+        }
+        if (this.getAttribute("activeTab") != null) {
+            this.activeTab = parseInt(this.getAttribute("activeTab"));
         }
         const slot = this.shadowRoot.querySelector("slot");
         slot.addEventListener("slotchange", (e) => {
@@ -189,7 +193,7 @@ class Tabs extends HTMLElement {
 
         for (let i = 0; i < acc.length; i++) {
             let tab = acc[i];
-            if (i == 0){
+            if (i == this.activeTab){
                 tab.toggleActive();
             }
             this.addClickHandler(tab, tab.getHeader(), this)
