@@ -324,21 +324,7 @@ class Datepicker extends HTMLElement {
             }
 
         }, true);
-        const formatDate = d => {
-            let day = d.getDate();
-            if (day < 10) {
-                day = "0" + day;
-            }
-
-            let month = d.getMonth() + 1;
-            if (month < 10) {
-                month = "0" + month;
-            }
-
-            let year = d.getFullYear();
-
-            return day + " / " + month + " / " + year;
-        };
+       
         let years = [];
         let currentYear = new Date().getFullYear();
 
@@ -408,8 +394,7 @@ class Datepicker extends HTMLElement {
                     selectedYear = comboYear;
 
 
-                    selectedDateElement.value = formatDate(newDate);
-                    selectedDateElement.dataset.value = newDate;
+                   
                     datesElement.classList.toggle("active");
                     populateDates();
                     self.setValue(newDate);
@@ -550,6 +535,22 @@ class Datepicker extends HTMLElement {
         return null;
     }
 
+     formatDate = d => {
+        let day = d.getDate();
+        if (day < 10) {
+            day = "0" + day;
+        }
+
+        let month = d.getMonth() + 1;
+        if (month < 10) {
+            month = "0" + month;
+        }
+
+        let year = d.getFullYear();
+
+        return day + " / " + month + " / " + year;
+    };
+
 
     isRequired() {
         let input = this.shadowRoot.querySelector(".selected-date")
@@ -643,14 +644,16 @@ class Datepicker extends HTMLElement {
 
     setValue(val) {
         this.selectedDate = val;
-        this.shadowRoot.querySelector(".selected-date").dataset.value = val;
+        let input =  this.getInput();
+        input.dataset.value = val;
         if (val != null) {
-            this.shadowRoot.querySelector(".selected-date").classList.remove("emptySelectedDate");
+            input.classList.remove("emptySelectedDate");
             this.shadowRoot.querySelector(".inputWrapper").classList.remove("emptyWrapper");
-            this.shadowRoot.querySelector(".selected-date").innerText = val.toLocaleDateString().replaceAll("/", " / ");
+            input.innerText = val.toLocaleDateString().replaceAll("/", " / ");
+            input.value = this.formatDate(val);
         } else {
-            this.shadowRoot.querySelector(".selected-date").innerText = "";
-            this.shadowRoot.querySelector(".selected-date").classList.add("emptySelectedDate");
+            input.innerText = "";
+            input.classList.add("emptySelectedDate");
             this.shadowRoot.querySelector(".inputWrapper").classList.add("emptyWrapper");
         }
 
