@@ -137,6 +137,9 @@ class Checkbox extends HTMLElement {
                 this.shadowRoot.appendChild(style(st));
                 st = "input[type=checkbox]:checked::after { top: 2px; }";
                 this.shadowRoot.appendChild(style(st));
+            }else{
+                let st = "input[type=checkbox] {  appearance: inherit; }";
+                this.shadowRoot.appendChild(style(st));
             }
 
         }
