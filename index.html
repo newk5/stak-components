@@ -17,6 +17,7 @@
     <script src="components/st-datepicker.js" type="module"></script>
     <script src="components/st-timepicker.js" type="module"></script>
     <script src="components/st-tabs.js" type="module"></script>
+    <script src="components/st-grouplist.js" type="module"></script>
     <style>
         h1 {
             background-color: #547b9d;
@@ -122,6 +123,21 @@
                 hello again2
             </st-tab>
         </st-tabs>
+        
+        <br/>
+        <h2>GroupList</h2>
+          <div id="test" style="width: 100px; height:100px; border:solid 2px red; padding: 5px;">
+            <br/><br/>
+            right click here
+        </div>
+
+        <st-grouplist id="group" for="#test" label="Nodes" placeholder="Search nodes...">
+            <option group="Node1" value="1">Create Node1 Action1</option>
+            <option group="Node1" value="2">Create Node1 Action2</option>
+            <option group="Node2" value="3">Create Node2 Action1</option>
+            <option group="Node2" value="4">Create Node2 Action2</option>
+        </st-grouplist>
+
 
     </div>
 </body>
