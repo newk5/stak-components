@@ -366,6 +366,13 @@ class GroupList extends HTMLElement {
             if (alreadyOpened) {
                 self.toggleOptionGroup(groupParent);
             }
+              //for each option
+             let optionsDiv = group.children[1];
+             let options = optionsDiv.children;
+             for (let i = 0; i < options.length; i++) {
+                 const option = options[i];
+                 option.style.display = "block";
+             }
 
         });
     }
@@ -394,16 +401,15 @@ class GroupList extends HTMLElement {
             if (showAll) {
                 group.style.display = "block";
                 if (alreadyOpened) {
-                    self.toggleOptionGroup(groupParent);
-                    //for each option
+                    self.toggleOptionGroup(groupParent);        
+                }
+                  //for each option
                     let optionsDiv = group.children[1];
                     let options = optionsDiv.children;
                     for (let i = 0; i < options.length; i++) {
                         const option = options[i];
                         option.style.display = "block";
                     }
-
-                }
 
 
             } else {
