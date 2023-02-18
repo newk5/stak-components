@@ -379,7 +379,7 @@ class GroupList extends HTMLElement {
 
     getGlobalStyle() {
         try {
-            return window.__$STAK.styles.combo;
+            return window.__$STAK.styles.grouplist;
         } catch (error) {
 
         }
