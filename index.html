@@ -104,6 +104,20 @@
         <st-textarea label="">
         </st-textarea>
 
+        <br/> <br/> <br/> <br/>
+        <h2>GroupList</h2>
+          <div id="test" style="width: 100px; height:100px; border:solid 2px red; padding: 5px;">
+            <br/><br/>
+            right click here
+        </div>
+
+        <st-grouplist id="group" for="#test" label="Nodes" placeholder="Search nodes...">
+            <option group="Node1" value="1">Create Node1 Action1</option>
+            <option group="Node1" value="2">Create Node1 Action2</option>
+            <option group="Node2" value="3">Create Node2 Action1</option>
+            <option group="Node2" value="4">Create Node2 Action2</option>
+        </st-grouplist>
+        
         <h2>Accordion</h2>
         <st-accordion>
             <st-accordion-tab name="hello">
@@ -124,19 +138,7 @@
             </st-tab>
         </st-tabs>
         
-        <br/> <br/> <br/> <br/>
-        <h2>GroupList</h2>
-          <div id="test" style="width: 100px; height:100px; border:solid 2px red; padding: 5px;">
-            <br/><br/>
-            right click here
-        </div>
-
-        <st-grouplist id="group" for="#test" label="Nodes" placeholder="Search nodes...">
-            <option group="Node1" value="1">Create Node1 Action1</option>
-            <option group="Node1" value="2">Create Node1 Action2</option>
-            <option group="Node2" value="3">Create Node2 Action1</option>
-            <option group="Node2" value="4">Create Node2 Action2</option>
-        </st-grouplist>
+        
 
 
     </div>
