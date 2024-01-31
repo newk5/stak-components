@@ -216,8 +216,8 @@ class GroupList extends HTMLElement {
         let el = window.document.querySelector(this.getAttribute("for"));
         if (el != null && el != undefined) {
             el.addEventListener('contextmenu', (event) => {
-                let x = event.clientY;
-                let y = event.clientX;
+                let x = event.pageY;
+                let y = event.pageX;
                 self.open(x, y);
                 event.preventDefault();
                 return false;
