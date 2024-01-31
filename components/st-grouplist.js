@@ -216,8 +216,8 @@ class GroupList extends HTMLElement {
         let el = window.document.querySelector(this.getAttribute("for"));
         if (el != null && el != undefined) {
             el.addEventListener('contextmenu', (event) => {
-                let x = event.pageY;
-                let y = event.pageX;
+                let y = event.pageY;
+                let x = event.pageX;
                 self.open(x, y);
                 event.preventDefault();
                 return false;
@@ -261,8 +261,8 @@ class GroupList extends HTMLElement {
         let box = this.shadowRoot.querySelector(".box");
 
         this.style.display = "block";
-        this.style.top = x + "px";
-        this.style.left = y + "px";
+        this.style.top = y + "px";
+        this.style.left = x + "px";
         box.focus();
     }
 
